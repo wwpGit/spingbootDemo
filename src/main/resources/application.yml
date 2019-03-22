@@ -1,0 +1,33 @@
+spring:
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      location: classpath:/upload
+  profiles:
+    active: @profileActive@
+
+  thymeleaf:
+    encoding: UTF-8
+    cache: false
+    prefix: classpath:/templates/
+    mode: LEGACYHTML5
+
+#mynatis配置
+mybatis:
+  type-aliases-package: com.chaoxing.course.model
+  #mapper加载路径
+  mapper-locations: classpath:mapper/*Mapper.xml
+  #myatbis配置文件
+  config-location: classpath:mybatis-conf.xml
+
+
+#pagehelper分页插件
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: pageNum=page;pageSize=limit;
+
+logging:
+  config: classpath:logback-spring.xml

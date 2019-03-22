@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_HOME" value="logs"/>
+    <property name="APP_NAME" value="ECourse"/>
+
+    <property name="CONSOLE_LOG_PATTERN"
+              value="${APP_NAME} %d{HH:mm:ss.SSS} %boldRed(%thread) %highlight(%-5level) %white(%caller{1} %logger) -  %boldGreen(%msg%n)"
+    />
+
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <!--<pattern>${APP_NAME} %d{HH:mm:ss.SSS} [%thread] %-5level %caller{1} %logger - %msg%n</pattern>-->
+        </encoder>
+    </appender>
+
+    <!-- 按照每天生成日志文件 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/${APP_NAME}.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${APP_NAME} %d{HH:mm:ss.SSS} [%thread] %-5level %caller{1} %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <springProfile name="dev">
+        <logger name="com.wwp" level="INFO" additivity="false">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="FILE"/>
+        </logger>
+        <logger name="org.springframework" level="WARN" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="org.thymeleaf" level="WARN" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <root level="WARN">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="FILE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="test">
+        <logger name="com.wwp" level="INFO" additivity="false">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="FILE"/>
+        </logger>
+        <logger name="org.springframework" level="WARN" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="org.thymeleaf" level="WARN" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <root level="WARN">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="FILE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="release">
+        <root level="WARN">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="FILE"/>
+        </root>
+    </springProfile>
+</configuration>
